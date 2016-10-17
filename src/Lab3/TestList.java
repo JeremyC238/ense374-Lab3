@@ -10,7 +10,7 @@ public class TestList
 		
 		String choice = "";
 		int data;
-		ListElement addElement;
+		ListElement add;
 		LinkedList list = new LinkedList();
 		
 		do
@@ -25,22 +25,27 @@ public class TestList
 			
 			choice = in.next(); // user enters input
 			
-			//assume user adds an item the first time
+			// adds a node to the linked list
 			if (choice.equals("a"))
 			{
 				System.out.println("please enter a data element to add to the list");
 				data = in.nextInt(); // takes the user input
 				
-				addElement = new ListElement(data); // creates a new node in the form of a class
+				add = new ListElement(data); // creates a new node in the form of a class
 												
-				list.addElement(addElement); // adds the new node to the list
+				list.addElement(add); // adds the new node to the list
 			}
 			
+			// retrieves a node from the linked list
 			else if (choice.equals("b"))
 			{
+				System.out.println("please enter an index position to traverse to in the list");
+				data = in.nextInt(); // takes the users input
 				
+				list.retrieveElement(data); //retrieves the node requested	
 			}
 			
+			// deletes a node from the linked list
 			else if (choice.equals("c"))
 			{
 				
@@ -51,11 +56,14 @@ public class TestList
 				
 			}
 			
-			//else
-				//System.out.println("Incorrect option please try again");
+			// error checks the users input
+			else if (!(choice.equals("a")|| choice.equals("b") || choice.equals("c") || choice.equals("d") || choice.equals("e")))      
+				System.out.println("Incorrect option please try again");
 
 		}while(!choice.equals("e"));
-	
-	in.close();
+		
+		System.out.println("good bye!");
+		
+		in.close(); // closes scanner
 	}
 }
