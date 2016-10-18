@@ -1,6 +1,6 @@
 package Lab3;
 
-
+import java.util.Stack;
 
 public class LinkedList 
 {
@@ -145,6 +145,9 @@ public class LinkedList
 	
 	public void printLinkedListTail()
 	{
+		Stack<Integer> reverseListValues = new Stack<Integer>();
+		currentNode = head;
+		
 		// error checks of there are any nodes in the list
 		if (currentNode == null)
 			System.out.println("there are currently no nodes in the list, please add a node first");
@@ -153,9 +156,20 @@ public class LinkedList
 		{
 			System.out.println("the linked list from tail to head is:");
 			
+			// fills the stack with the list values in reverse order
+			for (int i = 0; i < endNode.getIterator(); i++)
+			{
+				reverseListValues.push(currentNode.getData());
+				currentNode = currentNode.getNext();
+			}
 			
+			// prints the list from tail to head
+			for (int i = 0; i < endNode.getIterator(); i++)
+			{
+				System.out.println(reverseListValues.peek());
+				reverseListValues.pop();
+			}
 		}
-		
 	}
 	
 	public void printLinkedListHead()
@@ -177,7 +191,6 @@ public class LinkedList
 				currentNode = currentNode.getNext();
 			}
 		}
-		
 	}	
 }
 
