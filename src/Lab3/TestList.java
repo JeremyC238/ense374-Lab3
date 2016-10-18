@@ -20,8 +20,9 @@ public class TestList
 			System.out.println("a) to add a node to the list");
 			System.out.println("b) to retrieve a node from the list");
 			System.out.println("c) to delete a node from the list");
-			System.out.println("d) to print the list");
-			System.out.println("e) to exit the program");
+			System.out.println("d) to print the list from tail to head");
+			System.out.println("e) to print the list from head to tail");
+			System.out.println("f) to exit the program");
 			
 			choice = in.next(); // user enters input
 			
@@ -48,19 +49,29 @@ public class TestList
 			// deletes a node from the linked list
 			else if (choice.equals("c"))
 			{
+				System.out.println("please enter the index position of the node you wish to delete");
+				data = in.nextInt();
 				
+				list.deleteElement(data);
 			}
 			
+			// prints the linked list from tail to head
 			else if (choice.equals("d"))
 			{
-				
+				list.printLinkedListTail();
+			}
+			
+			// prints the linked list from head to tail
+			else if (choice.equals("e"))
+			{
+				list.printLinkedListHead();
 			}
 			
 			// error checks the users input
-			else if (!(choice.equals("a")|| choice.equals("b") || choice.equals("c") || choice.equals("d") || choice.equals("e")))      
+			else if (!(choice.equals("a")|| choice.equals("b") || choice.equals("c") || choice.equals("d") || choice.equals("e") || choice.equals("f")))      
 				System.out.println("Incorrect option please try again");
 
-		}while(!choice.equals("e"));
+		}while(!choice.equals("f"));
 		
 		System.out.println("good bye!");
 		
