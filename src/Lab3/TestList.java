@@ -50,9 +50,15 @@ public class TestList
 			else if (choice.equals("c"))
 			{
 				System.out.println("please enter the index position of the node you wish to delete");
-				data = in.nextInt();
+				data = in.nextInt(); // takes the users input
 				
-				list.deleteElement(data);
+				// if returns true, prints message that the node was deleted
+				if (list.deleteElement(data))
+					System.out.println("node successfully deleted");
+				
+				// if returns false, prints message saying there are no nodes in the list
+				else
+					System.out.println("there are currently no nodes in the list, please add a node first");
 			}
 			
 			// prints the linked list from tail to head
@@ -70,6 +76,8 @@ public class TestList
 			// error checks the users input
 			else if (!(choice.equals("a")|| choice.equals("b") || choice.equals("c") || choice.equals("d") || choice.equals("e") || choice.equals("f")))      
 				System.out.println("Incorrect option please try again");
+			
+			System.out.println(); // adds new line
 
 		}while(!choice.equals("f"));
 		
