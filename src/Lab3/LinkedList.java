@@ -9,6 +9,7 @@ public class LinkedList
 	private ListElement endNode = new ListElement(); // the last node in the linked list
 	private ListElement prevNode;
 	private ListElement temp;
+	private ListElement tailToHead;
 	private int listLength;
 	
 	public LinkedList()
@@ -112,29 +113,22 @@ public class LinkedList
 	
 	public void printLinkedListTail()
 	{
-		Stack<Integer> reverseListValues = new Stack<Integer>();
 		currentNode = head;
+		tailToHead = endNode;
 		
 		// checks if the list is empty
 		if (listLength == 0)
 			System.out.println("there are currently no nodes in the list, please add a node first");
 		
 		else
-		{	
-			// fills the stack with the list values in reverse order
-			for (int i = 0; i < listLength; i++)
-			{
-				reverseListValues.push(currentNode.getData()); // pushes the current node on to the stack
-				currentNode = currentNode.getNext(); // iterates through the list
-			}
-			
+		{
 			System.out.println("the linked list from tail to head is:");
 			
 			// prints the list from tail to head
 			for (int i = 0; i < listLength; i++)
 			{
-				System.out.println(reverseListValues.peek()); // prints the top value from the stack
-				reverseListValues.pop(); // iterates through the stack
+				System.out.println(tailToHead.getData());
+				tailToHead = tailToHead.getPrevious();
 			}
 		}
 	}
