@@ -5,195 +5,136 @@ import java.util.Stack;
 public class LinkedList 
 {
 	private ListElement head = new ListElement(); // the head of the linked list
-	private ListElement currentNode = new ListElement(); // the current node in the linked list in addElement function
-	private ListElement nodeIterator; // a new node in the linked list
-	private ListElement tempSearch = new ListElement(); // deletes a node in the linked list
-	private ListElement previousNode = new ListElement(); // tails current node
-	//private ListElement temp1 = new ListElement();
+	private ListElement currentNode; // the current node in the linked list in addElement function
+	//private ListElement nodeIterator; // a new node in the linked list
+	//private ListElement tempSearch = new ListElement(); // deletes a node in the linked list
+	//private ListElement previousNode; // tails current node
 	private ListElement endNode = new ListElement();
-	private int addIterator;
-	private boolean indexPositionFound = true;
+	private int listLength;
+	//private boolean indexPositionFound = true;
 	
 	public LinkedList()
 	{
 		head = null;
 		currentNode = null;
-		nodeIterator = null;
-		previousNode = null;
+		
+		//nodeIterator = null;
+		//previousNode = null;
 		endNode = null;
-		addIterator = 0;
+		listLength = 0;
 	}
 	
 	public void addElement(ListElement le)
 	{
 		// first iteration
-		if (addIterator == 0)
+		if (listLength == 0)
 		{
-			
-			//head = new ListElement(); // creates a new head object
-			//currentNode = new ListElement(); // creates a new current object
 			head = le; // sets the head equal to first node
-			currentNode = head; // sets the current node equal to head node
-			
-			addIterator++;
-			currentNode.setIterator(addIterator);
+			endNode = head; // sets the current node equal to head node
 		}
 		
-		// second iteration
-		else if (head.getNext() == null)
-		{	
-			nodeIterator = new ListElement(); // new node object to store the new node
-			head.setNext(le); // sets head next component to the new node
-			nodeIterator = head.getNext(); // sets the new node object equal to new node
-			currentNode = nodeIterator; // sets the current object equal to the next node in the list
-			
-			addIterator++;
-			currentNode.setIterator(addIterator);
-		}
-		
-		// after second iteration
+		//after first iteration
 		else
 		{
-			currentNode.setNext(le);
-			nodeIterator = currentNode.getNext();
-			currentNode = nodeIterator;
-			
-			addIterator++;
-			currentNode.setIterator(addIterator);
+			endNode.setNext(le); // sets endNode next equal to the new node
+			endNode = endNode.getNext(); // updates endNode to the last node in list
 		}
 		
-		endNode = currentNode;
+		listLength++; // increments the number of nodes in the list
 	}
 	
-	public void retrieveElement(int indexPosition)
+	public ListElement retrieveElement(int indexPosition)
 	{
-		tempSearch = head; // sets currentNode back to head
-		indexPositionFound = true; // resets index position
+		// checks if the list is empty or
+		// indexPosition is not greater than the number of nodes in the list
+		if (indexPosition < 0 || indexPosition > listLength)
+			return null;
 		
-		while(indexPositionFound)
+		else
 		{
-			// error checks of there are any nodes in the list
-			if (tempSearch == null)
-			{
-				System.out.println("there are currently no nodes in the list, please add a node first");
-				indexPositionFound = false;
-			}
+			currentNode = head; // sets currentNode equal to the start of the list
 			
-			// checks the current node for correct index
-			else if (tempSearch.getIterator() == indexPosition)
-			{
-				//prints the retrieved value
-				System.out.println("the retrieved value in the linked list is: " + tempSearch.getData());
-				indexPositionFound = false;
-			}
-				
-			// checks following nodes in the list
-			else
-			{
-				if (tempSearch.getNext() != null) 
-					tempSearch = tempSearch.getNext(); // iterates currentNode
-				
-				// error checks the index bound
-				else 
-				{
-					System.out.println("incorrect index please try again"); // prints out the error statement
-					indexPositionFound = false;
-				}	
-			}
+			// iterates currentNode until correct node is found
+			for (int i = 0; i < indexPosition - 1; i++)
+				currentNode = currentNode.getNext();
+			
+			return currentNode; // returns the correct node back to main
 		}
 	}
 	
 	public boolean deleteElement(int indexPosition)
 	{
-		tempSearch = head;
-		boolean deletedANode = false;
-		
-	
-		while(tempSearch != null)
+		// checks if the list is empty or
+		// indexPosition is not greater than the number of nodes in the list
+		if (indexPosition < 0 || indexPosition > listLength)
+			return false;
+				
+		// condition to delete the head node
+		else if(indexPosition == 1)
 		{
+			head = head.getNext(); // increments head to the next node in the list
+			
+			listLength--; // decrements listLength
+		}
 				
-			if (tempSearch.getIterator() == indexPosition)
-			{
-				// changes the endNode to new end node if the last node is deleted
-				if (tempSearch.getIterator() == endNode.getIterator() && tempSearch.getNext() == null)
-				{
-					// if there is only one node in the list change previousNode to head instead of null
-					if(tempSearch == head)
-						previousNode = head;
+		// condition for any node after the head
+		else
+		{
+			currentNode = head; //reset current node equal to the head
+			//indexPosition = indexPosition - 1;
 					
-					//set the endNode equal to previousNode 
-					endNode = previousNode;
-				}
+			// iterates current node until it finds the node before the one to delete
+			for (int i = 0; i < indexPosition - 2; i++)
+				currentNode = currentNode.getNext();
+			
+			//once currentNode stops, set currentNode equal to the node after the deleted node
+			currentNode.setNext(currentNode.getNext().getNext());
+			
+			if (currentNode.getNext() == null)
+				endNode = currentNode;
 				
-				// condition for the first node to be deleted
-				if (tempSearch == head)
-				{
-					// sets the new head index to 1, only if there are two node in the list
-					if (head.getNext() != null)
-					{
-						head.getNext().setIterator(head.getIterator());
-						head = head.getNext();
-						deletedANode = true;
-						break;
-					}
-					
-					head = head.getNext();
-				}
-				
-				else
-					previousNode.setNext(tempSearch.getNext());
-					
-				deletedANode = true;
-				
-				
-			}
-			else
-				previousNode = tempSearch;
-				
-			tempSearch = tempSearch.getNext();
+			
+			listLength--; // decrements listLength
 		}
 		
-		if (deletedANode)
-			addIterator--; //decreases addIterator
-		
-		return deletedANode;	
+		return true;
 	}
 	
 	public void printLinkedListTail()
 	{
 		Stack<Integer> reverseListValues = new Stack<Integer>();
-		tempSearch = head;
+		currentNode = head;
 		
-		// error checks of there are any nodes in the list
-		if (tempSearch == null)
+		// checks if the list is empty
+		if (listLength == 0)
 			System.out.println("there are currently no nodes in the list, please add a node first");
-	
+		
 		else
-		{
-			System.out.println("the linked list from tail to head is:");
-			
+		{	
 			// fills the stack with the list values in reverse order
-			for (int i = 0; i < endNode.getIterator(); i++)
+			for (int i = 0; i < listLength; i++)
 			{
-				reverseListValues.push(tempSearch.getData());
-				tempSearch = tempSearch.getNext();
+				reverseListValues.push(currentNode.getData()); // pushes the current node on to the stack
+				currentNode = currentNode.getNext(); // iterates through the list
 			}
 			
+			System.out.println("the linked list from tail to head is:");
+			
 			// prints the list from tail to head
-			for (int i = 0; i < endNode.getIterator(); i++)
+			for (int i = 0; i < listLength; i++)
 			{
-				System.out.println(reverseListValues.peek());
-				reverseListValues.pop();
+				System.out.println(reverseListValues.peek()); // prints the top value from the stack
+				reverseListValues.pop(); // iterates through the stack
 			}
 		}
 	}
 	
 	public void printLinkedListHead()
 	{
-		tempSearch = head;
+		currentNode = head;
 		
-		// error checks of there are any nodes in the list
-		if (tempSearch == null)
+		// checks if the list is empty
+		if (listLength == 0)
 			System.out.println("there are currently no nodes in the list, please add a node first");
 		
 		else
@@ -201,10 +142,10 @@ public class LinkedList
 			System.out.println("the linked list from head to tail is:");
 			
 			// prints the list from head to tail
-			for (int i = 0; i < endNode.getIterator(); i++)
+			for (int i = 0; i < listLength; i++)
 			{
-				System.out.println(tempSearch.getData());
-				tempSearch = tempSearch.getNext();
+				System.out.println(currentNode.getData());
+				currentNode = currentNode.getNext();
 			}
 		}
 	}	

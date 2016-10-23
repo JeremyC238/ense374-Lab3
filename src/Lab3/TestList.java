@@ -43,7 +43,11 @@ public class TestList
 				System.out.println("please enter an index position to traverse to in the list");
 				data = in.nextInt(); // takes the users input
 				
-				list.retrieveElement(data); //retrieves the node requested	
+				if (list.retrieveElement(data) == null)
+					System.out.println("there are either no nodes in the list or an invalid index has been entered");
+				
+				else
+					System.out.println("the retrieved value in the linked list is: " + list.retrieveElement(data).getData());	
 			}
 			
 			// deletes a node from the linked list
@@ -56,9 +60,9 @@ public class TestList
 				if (list.deleteElement(data))
 					System.out.println("node successfully deleted");
 				
-				// if returns false, prints message saying there are no nodes in the list
+				// if returns false, prints message saying the two possible errors
 				else
-					System.out.println("there are currently no nodes in the list, please add a node first");
+					System.out.println("there are either no nodes in the list or an invalid index has been entered");
 			}
 			
 			// prints the linked list from tail to head
