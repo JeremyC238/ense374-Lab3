@@ -5,13 +5,9 @@ import java.util.Stack;
 public class LinkedList 
 {
 	private ListElement head = new ListElement(); // the head of the linked list
-	private ListElement currentNode; // the current node in the linked list in addElement function
-	//private ListElement nodeIterator; // a new node in the linked list
-	//private ListElement tempSearch = new ListElement(); // deletes a node in the linked list
-	//private ListElement previousNode; // tails current node
+	private ListElement currentNode; // the current node in the linked list
 	private ListElement endNode = new ListElement();
 	private int listLength;
-	//private boolean indexPositionFound = true;
 	
 	public LinkedList()
 	{
