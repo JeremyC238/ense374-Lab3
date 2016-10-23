@@ -6,16 +6,15 @@ public class LinkedList
 {
 	private ListElement head = new ListElement(); // the head of the linked list
 	private ListElement currentNode; // the current node in the linked list
-	private ListElement endNode = new ListElement();
+	private ListElement endNode = new ListElement(); // the last node in the linked list
+	private ListElement prevNode;
+	private ListElement temp;
 	private int listLength;
 	
 	public LinkedList()
 	{
 		head = null;
 		currentNode = null;
-		
-		//nodeIterator = null;
-		//previousNode = null;
 		endNode = null;
 		listLength = 0;
 	}
@@ -27,6 +26,7 @@ public class LinkedList
 		{
 			head = le; // sets the head equal to first node
 			endNode = head; // sets the current node equal to head node
+			prevNode = head; // sets the previous node equal to the head
 		}
 		
 		//after first iteration
@@ -34,6 +34,8 @@ public class LinkedList
 		{
 			endNode.setNext(le); // sets endNode next equal to the new node
 			endNode = endNode.getNext(); // updates endNode to the last node in list
+			endNode.setPrevious(prevNode); // sets the new node's previous equal to prevNode
+			prevNode = endNode; // increments prevNode
 		}
 		
 		listLength++; // increments the number of nodes in the list
@@ -86,10 +88,22 @@ public class LinkedList
 			//once currentNode stops, set currentNode equal to the node after the deleted node
 			currentNode.setNext(currentNode.getNext().getNext());
 			
-			if (currentNode.getNext() == null)
-				endNode = currentNode;
-				
+			// redirect prevNode new endNode to back to currentNode
+			if (currentNode.getNext() != null)
+			{
+				temp = currentNode; // marks currentNode's current position
+				currentNode = currentNode.getNext(); // advances currentNode
+				currentNode.setPrevious(temp); //redirects the currentNode's previous to currentNode marker
+			}
 			
+			// if deleting last element in list
+			// resets endNode to the new list end
+			else if (currentNode.getNext() == null)
+			{
+				endNode = currentNode;
+				prevNode = currentNode;
+			}
+				
 			listLength--; // decrements listLength
 		}
 		
